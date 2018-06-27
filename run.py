@@ -1,14 +1,7 @@
-from flask import Flask
+#codinig: utf8
+import logging
+from fbapp import app
 
-app = Flask(__name__)
-
-
-@app.route('/')
-
-def index():
-
-    return "Hello Names"
 
 if (__name__) == "__main__":
-
-    app.run()
+    app.run(debug = True)
