@@ -1,7 +1,8 @@
 #coding: utf-8
 import logging
 from flask import Flask, render_template, url_for, request
-import utils    
+import utils   
+from .utils import OpenGraphImage 
 app = Flask(__name__)
 
 app.config.from_object(u'config')
@@ -52,7 +53,7 @@ def result():
     uid = request.args.get('id')
     profile_pic = u'http://graph.facebook.com/' + uid + '/picture?type=large'
 
-    img = "tmp/sample.jpg"
+    img = OpenGraphImage(uid, user_name, description).location
     og_url = url_for("index", _external = True, img = img ) 
     return render_template(u"result.html",
                             user_name = user_name,

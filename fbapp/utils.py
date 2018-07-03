@@ -3,10 +3,64 @@ import random
 import MySQLdb
 import logging
 from PIL import Image, ImageDraw, ImageFont
-#from config import CONFIG_DB
+from config import CONFIG_DB
 import os
 import textwrap
 
+
+def connect():
+    """
+    As her name indicates, this method allow to connected on the database
+    """
+    #db = CONFIG_DB[u"db"]
+    con  = MySQLdb.connect(
+        host = CONFIG_DB[u"db"][u"host"],
+        user = CONFIG_DB[u"db"][u"user"],
+        passwd = CONFIG_DB[u"db"][u"password"],
+        db = CONFIG_DB[u"db"][u"database"],
+        charset=u"utf8",
+        use_unicode=True)
+
+    cursor = con.cursor()
+    return cursor, con
+
+def find_content(gender):
+    """
+    This method allow to get random content in db according to the gender pass on url
+    """
+    print "genre: ",gender
+
+    if gender is None:
+        print "yass"
+        gender = 1
+
+    items = []
+
+    try:
+        print "here"
+
+        cursor, con = connect()
+        query = u"SELECT * FROM content where genre={}".format(str(gender)) 
+        print query
+        cursor.execute(query)
+        for row in cursor.fetchall():
+            # print(row)
+            items.append({
+                u'id': row[0],
+                u'description': row[1],
+                u'genre': row[2],
+                u'artiste': row[3],
+                u'punchline': row[4]
+            })
+        con.commit()
+        print items
+        one = random.choice(items)['artiste']
+    except BaseException, e:
+        logging.error(u'Error: {}'.format(e))
+    
+    print "response: {}".format(one)
+
+    return one
 
 
 
@@ -28,7 +82,7 @@ class OpenGraphImage:
             w, h = self.print_on_image(background, sentence, 40, current_h)
             current_h += h + pad
         
-        background.show()
+        #background.show()
         background.save(self._path(uid))
 
     
@@ -65,8 +119,3 @@ class OpenGraphImage:
         """
         return 'tmp/{}.jpg'.format(uid)
 
-description = u"""
-            Toi, tu sais comment utiliser la console ! Jamais à court d'idées pour réaliser ton objectif, tu es déterminé-e et persévérant-e. Tes amis disent d'ailleurs volontiers que tu as du caractère et que tu ne te laisses pas marcher sur les pieds. Un peu hacker sur les bords, tu aimes trouver des solutions à tout problème. N'aurais-tu pas un petit problème d'autorité ? ;-)
-        """
-
-OpenGraphImage(100006593024199, "namesgeo", description)

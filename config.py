@@ -10,7 +10,7 @@ CONFIG_DB = {
     u"db": {
         u"user": u"root",
         u"host" : u"127.0.0.1",
-        u"password": u"",
+        u"password": u"localroot1234",
         u"database": u"web_app_fb",
         u"charset": u"utf-8"
     },
