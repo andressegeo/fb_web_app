@@ -24,7 +24,7 @@ def find_content(gender):
     except BaseException, e:
         logging.error("error is: {}".format(e))
 
-    return u"smalafde"
+    return u"test"
 
 class OpenGraphImage:
     """

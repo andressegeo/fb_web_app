@@ -5,9 +5,21 @@ import logging
 import os
 SECRET_KEY = "*qzC!')@=7#7td`nDc6Nw9%["
 
-FB_APP_ID = 318494538688205
 
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
+
+
+...
+# Database initialization
+if os.environ.get('DATABASE_URL') is None:
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    FB_APP_ID = 318494538688205
+else:#prod
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    FB_APP_ID = 318494538688205
 """
 Help to connect to mysql using mysql workbench
 
@@ -30,6 +42,3 @@ CONFIG_DB = {
     }
 }
 """
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
