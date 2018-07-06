@@ -1,68 +1,30 @@
 #coding: utf-8
 import random
-import MySQLdb
+#import MySQLdb
 import logging
 from PIL import Image, ImageDraw, ImageFont
-from config import CONFIG_DB
+#from config import CONFIG_DB
 import os
 import textwrap
 
-
-def connect():
-    """
-    As her name indicates, this method allow to connected on the database
-    """
-    #db = CONFIG_DB[u"db"]
-    con  = MySQLdb.connect(
-        host = CONFIG_DB[u"db"][u"host"],
-        user = CONFIG_DB[u"db"][u"user"],
-        passwd = CONFIG_DB[u"db"][u"password"],
-        db = CONFIG_DB[u"db"][u"database"],
-        charset=u"utf8",
-        use_unicode=True)
-
-    cursor = con.cursor()
-    return cursor, con
+import fbapp
 
 def find_content(gender):
+    print "here"
+    con = fbapp.models.Content
+    gen = fbapp.models.Gender
     """
-    This method allow to get random content in db according to the gender pass on url
+    SQL Alchemy This method allow to get random content in db according to the gender pass on url
     """
-    print "genre: ",gender
-
-    if gender is None:
-        print "yass"
-        gender = 1
-
-    items = []
-
     try:
-        print "here"
-
-        cursor, con = connect()
-        query = u"SELECT * FROM content where genre={}".format(str(gender)) 
-        print query
-        cursor.execute(query)
-        for row in cursor.fetchall():
-            # print(row)
-            items.append({
-                u'id': row[0],
-                u'description': row[1],
-                u'genre': row[2],
-                u'artiste': row[3],
-                u'punchline': row[4]
-            })
-        con.commit()
-        print items
-        one = random.choice(items)['artiste']
+        contents = con.query.filter(con.gender == gen[gender]).all()
+        #contents = con.query.filter_by(gender=gen['male'])
+        print "this is contents: {}".format(contents)
+        return random.choice(contents)
     except BaseException, e:
-        logging.error(u'Error: {}'.format(e))
-    
-    print "response: {}".format(one)
+        logging.error("error is: {}".format(e))
 
-    return one
-
-
+    return u"smalafde"
 
 class OpenGraphImage:
     """

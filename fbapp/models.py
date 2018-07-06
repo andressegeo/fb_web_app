@@ -1,3 +1,4 @@
+#coding:utf8
 from flask_sqlalchemy import SQLAlchemy
 import logging as lg
 from .views import app
@@ -25,8 +26,9 @@ class Content(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-    db.session.add(Content("THIS IS SPARTAAAAAAA!!!", Gender["male"]))
-    db.session.add(Content("What's your favorite scary movie?", Gender["female"]))
+    db.session.add(Content(u"THIS IS SPARTAAAAAAA!!!", Gender['male']))
+    db.session.add(Content(u"What's your favorite scary movie?", Gender['female']))
+    db.session.add(Content(u"Personne ne te faisait pitié, ni sur le moment, ni après, on était absolument sans défense devant toi.", Gender['male']))
     db.session.commit()
     lg.warning('Database initialized!')
 
