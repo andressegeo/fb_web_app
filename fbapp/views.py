@@ -1,8 +1,8 @@
 #coding: utf-8
 import logging
 from flask import Flask, render_template, url_for, request
-import utils   
-from .utils import OpenGraphImage 
+#import utils   
+#from .utils import OpenGraphImage 
 app = Flask(__name__)
 
 app.config.from_object(u'config')

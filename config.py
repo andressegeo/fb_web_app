@@ -2,9 +2,14 @@
 # >>> import random, string
 # >>> "".join([random.choice(string.printable) for _ in range(24)])
 import logging
+import os
 SECRET_KEY = "*qzC!')@=7#7td`nDc6Nw9%["
 
 FB_APP_ID = 318494538688205
+
+
+"""
+Help to connect to mysql using mysql workbench
 
 CONFIG_DB = {
     u"db": {
@@ -24,3 +29,7 @@ CONFIG_DB = {
         u"debug": True
     }
 }
+"""
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
